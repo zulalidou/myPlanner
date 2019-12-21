@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single"> <!-- makes sure that we can only select 1 item from the items in this group -->
+        <item android:id="@+id/nav_currentTasks"
+            android:icon="@drawable/ic_current_tasks"
+            android:title="Current Tasks"
+            />
+        <item android:id="@+id/nav_expiredTasks"
+            android:icon="@drawable/ic_expired_tasks"
+            android:title="Expired Tasks"
+            />
+    </group>
+
+</menu>

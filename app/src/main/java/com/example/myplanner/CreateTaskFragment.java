@@ -72,21 +72,13 @@ public class CreateTaskFragment extends Fragment {
             Toast.makeText(getContext(), "Please fill in both the \"Task\" and \"Description\" entries", Toast.LENGTH_LONG).show();
         }
         else {
-            Toast.makeText(getContext(), "ASDFAFDSFSDAASDFAFDSAFSD", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "New task added", Toast.LENGTH_LONG).show();
 
-            ArrayList<String> taskInfo = new ArrayList<String>();
-            taskInfo.add(taskEditText.getText().toString());
-            taskInfo.add(descriptionEditText.getText().toString());
-            taskInfo.add(timeTextView.getText().toString());
+            CurrentTaskFragment.taskArray.add(taskEditText.getText().toString());
+            ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, CurrentTaskFragment.taskArray);
+            CurrentTaskFragment.taskListView.setAdapter(myArrayAdapter);
 
-            ArrayAdapter myArrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1);
-            CurrentTaskFragment.taskList.setAdapter(myArrayAdapter);
-
-            getActivity().getFragmentManager().popBackStack();
-
-            Fragment myFragment = getFragmentManager().findFragmentByTag("createTaskFragment_TAG");
-            if(myFragment != null)
-                getFragmentManager().beginTransaction().remove(myFragment).commit();
+            getActivity().getSupportFragmentManager().popBackStackImmediate();
         }
     }
 }

@@ -74,6 +74,7 @@ public class CreateTaskFragment extends Fragment {
         else {
             Toast.makeText(getContext(), "New task added", Toast.LENGTH_LONG).show();
 
+            CurrentTaskFragment.tasks_Map.put(taskEditText.getText().toString(), descriptionEditText.getText().toString());
             CurrentTaskFragment.taskArray.add(taskEditText.getText().toString());
             ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, CurrentTaskFragment.taskArray);
             CurrentTaskFragment.taskListView.setAdapter(myArrayAdapter);

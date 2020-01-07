@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TaskInfoActivity">
+
+    <TextView
+        android:id="@+id/taskName_TV_header"
+        android:text="Task Name"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/taskName_TV_answer"
+        android:text="Hello World"
+        android:textSize="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/taskName_TV_header"/>
+
+
+    <TextView
+        android:id="@+id/taskDescription_TV_header"
+        android:text="Task Description"
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/taskName_TV_answer"/>
+
+    <EditText
+        android:id="@+id/taskDescription_ET_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        android:layout_below="@+id/taskDescription_TV_header"/>
+
+
+    <Button
+        android:id="@+id/deleteTask_BTN"
+        android:text="Delete Task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/taskDescription_ET_answer"/>
+
+</RelativeLayout>

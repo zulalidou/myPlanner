@@ -59,7 +59,6 @@ public class CurrentTaskFragment extends Fragment {
             }
         });
 
-
         return myView;
     }
 

@@ -1,6 +1,8 @@
 package com.example.myplanner;
 
+import android.app.Notification;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -32,6 +36,10 @@ public class CreateTaskFragment extends Fragment {
     private EditText taskEditText, descriptionEditText;
     private Button setTimeBtn, saveNewTaskBtn;
 
+    //private static NotificationManagerCompat notificationManger;
+    //private Context context;
+    //App helper;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -44,6 +52,13 @@ public class CreateTaskFragment extends Fragment {
         timeTextView = (TextView) myView.findViewById(R.id.time_TV);
         setTimeBtn = (Button) myView.findViewById(R.id.setTime_BTN);
         saveNewTaskBtn = (Button) myView.findViewById(R.id.saveNewTask_BTN);
+
+
+        //notificationManger = NotificationManagerCompat.from(getActivity());
+        //context = getContext();
+        //helper = new App(getContext());
+
+
 
         setTimeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +95,40 @@ public class CreateTaskFragment extends Fragment {
             CurrentTaskFragment.taskListView.setAdapter(myArrayAdapter);
 
             getActivity().getSupportFragmentManager().popBackStackImmediate();
+
+
+           //sendToChannel();
         }
+    }
+
+
+    public void sendToChannel() {
+        //Notification.Builder builder = helper.getChannelNotification();
+        //helper.getManager().notify(1, builder.build());
+
+    /*
+        Notification myNotification = new NotificationCompat.Builder(getContext(), App.NOTIFICATION_CHANNEL_ID)
+                .setContentTitle("Task Expired")
+                .setContentText("This is a simple message :P")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .build();
+
+        notificationManger.notify(1, myNotification);
+     */
+
+        //App asdf = new App();
+        //asdf.createNotificationChannel();
+
+        /*
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), App.NOTIFICATION_CHANNEL_ID);
+        builder.setContentTitle("Task Expired");
+        builder.setContentText("his is a simple message :P");
+        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
+        builder.setCategory(NotificationCompat.CATEGORY_ALARM);
+
+        NotificationManagerCompat myNotificationManagerCompat = NotificationManagerCompat.from(requireContext());
+        myNotificationManagerCompat.notify(1, builder.build());
+         */
     }
 }

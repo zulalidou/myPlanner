@@ -23,7 +23,6 @@ import com.google.android.material.navigation.NavigationView;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    private static NotificationManagerCompat notificationManger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-
-        notificationManger = NotificationManagerCompat.from(this);
 
 
 
@@ -83,20 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START); // closes the drawer
         return true; // this means an item/tab (from the navigation view) will be selected..
     }
-
-
-/*
-    public static void sendToChannel() {//(View myView) {
-        Notification myNotification = new NotificationCompat.Builder(this, App.NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("Task Expired")
-                .setContentText("This is a simple message :P")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .build();
-
-        notificationManger.notify(1, myNotification);
-    }
-*/
 
 
     // When we press the back button when the navigation drawer is opened, we don't want to leave

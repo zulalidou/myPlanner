@@ -1,8 +1,11 @@
 package com.example.myplanner;
 
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,12 +36,20 @@ import java.util.Calendar;
 
 public class CreateTaskFragment extends Fragment {
     private TextView taskTextView, descriptionTextView, timeTextView;
-    private EditText taskEditText, descriptionEditText;
+    public static EditText taskEditText, descriptionEditText;
     private Button setTimeBtn, saveNewTaskBtn;
 
-    //private static NotificationManagerCompat notificationManger;
-    //private Context context;
-    //App helper;
+    private TimePickerDialog myTimePickerDialog;
+
+    private static final Calendar myCalendar = Calendar.getInstance();
+    private static int currentHour = myCalendar.get(Calendar.HOUR_OF_DAY);
+    private static int currentMinute = myCalendar.get(Calendar.MINUTE);
+
+    private AlarmManager myAlarmManager;
+    private PendingIntent myPendingIntent;
+
+    public static int notificationID = 0;
+
 
     @Nullable
     @Override
@@ -52,12 +63,6 @@ public class CreateTaskFragment extends Fragment {
         timeTextView = (TextView) myView.findViewById(R.id.time_TV);
         setTimeBtn = (Button) myView.findViewById(R.id.setTime_BTN);
         saveNewTaskBtn = (Button) myView.findViewById(R.id.saveNewTask_BTN);
-
-
-        //notificationManger = NotificationManagerCompat.from(getActivity());
-        //context = getContext();
-        //helper = new App(getContext());
-
 
 
         setTimeBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,8 +83,32 @@ public class CreateTaskFragment extends Fragment {
     }
 
     private void setTime() {
-        DialogFragment timePicker = new TimePickerFragment();
-        timePicker.show(getFragmentManager(), "time picker"); // "time picker" is just a tag
+        myTimePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                myCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                myCalendar.set(Calendar.MINUTE, minute);
+                myCalendar.set(Calendar.SECOND, 0);
+
+                String timeText = "Time: ";
+                timeText += java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(myCalendar.getTime());
+                timeTextView = (TextView) getActivity().findViewById(R.id.time_TV);
+                timeTextView.setText(timeText);
+
+                setAlarm();
+            }
+        }, currentHour, currentMinute, android.text.format.DateFormat.is24HourFormat(getActivity()));
+
+        myTimePickerDialog.show();
+    }
+
+    private void setAlarm() {
+        myAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        Intent myIntent = new Intent(getActivity(), AlarmReceiver.class);
+        myIntent.putExtra("task_name", taskEditText.getText().toString());
+        myPendingIntent = PendingIntent.getBroadcast(getActivity(), (int) System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notificationID++;
     }
 
     private void saveNewTask() {
@@ -96,39 +125,8 @@ public class CreateTaskFragment extends Fragment {
 
             getActivity().getSupportFragmentManager().popBackStackImmediate();
 
-
-           //sendToChannel();
+            if (myAlarmManager != null)
+                myAlarmManager.setExact(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), myPendingIntent); // the alarm gets fired at the time that the calendar was set above
         }
-    }
-
-
-    public void sendToChannel() {
-        //Notification.Builder builder = helper.getChannelNotification();
-        //helper.getManager().notify(1, builder.build());
-
-    /*
-        Notification myNotification = new NotificationCompat.Builder(getContext(), App.NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("Task Expired")
-                .setContentText("This is a simple message :P")
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_ALARM)
-                .build();
-
-        notificationManger.notify(1, myNotification);
-     */
-
-        //App asdf = new App();
-        //asdf.createNotificationChannel();
-
-        /*
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), App.NOTIFICATION_CHANNEL_ID);
-        builder.setContentTitle("Task Expired");
-        builder.setContentText("his is a simple message :P");
-        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-        builder.setCategory(NotificationCompat.CATEGORY_ALARM);
-
-        NotificationManagerCompat myNotificationManagerCompat = NotificationManagerCompat.from(requireContext());
-        myNotificationManagerCompat.notify(1, builder.build());
-         */
     }
 }

@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CurrentTaskFragment extends Fragment {
-    static ListView taskListView;
-    static ArrayList<String> taskArray = new ArrayList<String>();
-    static HashMap<String, String> tasks_Map = new HashMap<String, String>();
+    static ListView currentTasks_ListView;
+    static ArrayList<String> currentTasks_Array = new ArrayList<String>();
+    static HashMap<String, String> currentTasks_Map = new HashMap<String, String>();
 
     private FloatingActionButton addTask;
 
@@ -33,12 +33,11 @@ public class CurrentTaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_currenttasks, container, false);
 
+        currentTasks_ListView = (ListView) myView.findViewById(R.id.currentTasks_LV);
+        ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, currentTasks_Array);
+        currentTasks_ListView.setAdapter(myArrayAdapter);
 
-        taskListView = (ListView) myView.findViewById(R.id.tasks_LV);
-        ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, taskArray);
-        taskListView.setAdapter(myArrayAdapter);
-
-        taskListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        currentTasks_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String taskName = parent.getItemAtPosition(position).toString();
@@ -67,7 +66,7 @@ public class CurrentTaskFragment extends Fragment {
         FragmentTransaction myFragTrans = myFragMan.beginTransaction();
 
         CreateTaskFragment newFragment = new CreateTaskFragment();
-        myFragTrans.add(R.id.fragment_container, newFragment);
+        myFragTrans.replace(R.id.fragment_container, newFragment);
         myFragTrans.addToBackStack(null);   // Stack used in case we want to return to a previous fragment; null = no name for the fragment
         myFragTrans.commit();
     }

@@ -29,19 +29,19 @@ public class TaskInfoActivity extends AppCompatActivity {
         final String key = getIntent().getStringExtra("myKey");
         taskName.setText(key);
 
-        final String value = CurrentTaskFragment.tasks_Map.get(key);
+        final String value = CurrentTaskFragment.currentTasks_Map.get(key);
         taskDescription.setText(value);
 
 
         deleteTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CurrentTaskFragment.taskArray.remove(key);
-                CurrentTaskFragment.tasks_Map.remove(key);
+                CurrentTaskFragment.currentTasks_Array.remove(key);
+                CurrentTaskFragment.currentTasks_Map.remove(key);
 
                 // update task screen
-                ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(TaskInfoActivity.this, android.R.layout.simple_list_item_1, CurrentTaskFragment.taskArray);
-                CurrentTaskFragment.taskListView.setAdapter(myArrayAdapter);
+                ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(TaskInfoActivity.this, android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
+                CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
                 finish();
             }
         });

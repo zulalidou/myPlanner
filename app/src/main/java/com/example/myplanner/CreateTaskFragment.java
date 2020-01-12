@@ -42,13 +42,8 @@ public class CreateTaskFragment extends Fragment {
     private TimePickerDialog myTimePickerDialog;
 
     private static final Calendar myCalendar = Calendar.getInstance();
-    private static int currentHour = myCalendar.get(Calendar.HOUR_OF_DAY);
-    private static int currentMinute = myCalendar.get(Calendar.MINUTE);
-
     private AlarmManager myAlarmManager;
     private PendingIntent myPendingIntent;
-
-    public static int notificationID = 0;
 
 
     @Nullable
@@ -83,6 +78,9 @@ public class CreateTaskFragment extends Fragment {
     }
 
     private void setTime() {
+        int currentHour = myCalendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = myCalendar.get(Calendar.MINUTE);
+
         myTimePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -108,20 +106,22 @@ public class CreateTaskFragment extends Fragment {
         Intent myIntent = new Intent(getActivity(), AlarmReceiver.class);
         myIntent.putExtra("task_name", taskEditText.getText().toString());
         myPendingIntent = PendingIntent.getBroadcast(getActivity(), (int) System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notificationID++;
     }
 
     private void saveNewTask() {
         if (taskEditText.getText().toString().equals("") || descriptionEditText.getText().toString().equals("")) {
             Toast.makeText(getContext(), "Please fill in both the \"Task\" and \"Description\" entries", Toast.LENGTH_LONG).show();
         }
+        else if (myTimePickerDialog == null){
+            Toast.makeText(getContext(), "Please select a time", Toast.LENGTH_LONG).show();
+        }
         else {
             Toast.makeText(getContext(), "New task added", Toast.LENGTH_LONG).show();
 
-            CurrentTaskFragment.tasks_Map.put(taskEditText.getText().toString(), descriptionEditText.getText().toString());
-            CurrentTaskFragment.taskArray.add(taskEditText.getText().toString());
-            ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, CurrentTaskFragment.taskArray);
-            CurrentTaskFragment.taskListView.setAdapter(myArrayAdapter);
+            CurrentTaskFragment.currentTasks_Map.put(taskEditText.getText().toString(), descriptionEditText.getText().toString());
+            CurrentTaskFragment.currentTasks_Array.add(taskEditText.getText().toString());
+            ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
+            CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
 
             getActivity().getSupportFragmentManager().popBackStackImmediate();
 

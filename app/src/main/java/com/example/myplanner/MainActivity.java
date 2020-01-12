@@ -8,6 +8,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Notification;
 import android.content.Intent;
@@ -58,8 +60,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             myNavView.setCheckedItem(R.id.nav_currentTasks);
         }
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        String i = getIntent().getStringExtra("goto");
+        if (i != null)
+            openExpiredTasksFragment();
+    }
 
     // The "listener" method for the navigation view. Determines which fragments to show based on
     // which item/tab pressed by the user
@@ -78,6 +89,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawer(GravityCompat.START); // closes the drawer
         return true; // this means an item/tab (from the navigation view) will be selected..
+    }
+
+    private void openExpiredTasksFragment() {
+        ExpiredTaskFragment newFragment = new ExpiredTaskFragment();
+        FragmentTransaction myFragTrans = getSupportFragmentManager().beginTransaction();
+        myFragTrans.replace(R.id.fragment_container, newFragment).commit();
     }
 
 

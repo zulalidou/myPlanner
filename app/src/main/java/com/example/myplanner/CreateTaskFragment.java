@@ -1,11 +1,13 @@
 package com.example.myplanner;
 
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,7 +39,7 @@ import java.util.Calendar;
 public class CreateTaskFragment extends Fragment {
     private TextView taskTextView, descriptionTextView, timeTextView;
     public static EditText taskEditText, descriptionEditText;
-    private Button setTimeBtn, saveNewTaskBtn;
+    private Button setTimeBtn, saveNewTaskBtn, asdf, delete;
 
     private TimePickerDialog myTimePickerDialog;
 
@@ -45,11 +47,13 @@ public class CreateTaskFragment extends Fragment {
     private AlarmManager myAlarmManager;
     private PendingIntent myPendingIntent;
 
+    private DatabaseHandler iGROW_db;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_createtask, container, false);
+        iGROW_db = new DatabaseHandler(getContext());
 
         taskTextView = (TextView) myView.findViewById(R.id.shortTaskDesc_TV);
         taskEditText = (EditText) myView.findViewById(R.id.shortTaskDesc_ET);
@@ -58,6 +62,8 @@ public class CreateTaskFragment extends Fragment {
         timeTextView = (TextView) myView.findViewById(R.id.time_TV);
         setTimeBtn = (Button) myView.findViewById(R.id.setTime_BTN);
         saveNewTaskBtn = (Button) myView.findViewById(R.id.saveNewTask_BTN);
+
+        asdf = (Button) myView.findViewById(R.id.asdf_BTN);
 
 
         setTimeBtn.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +77,13 @@ public class CreateTaskFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 saveNewTask();
+            }
+        });
+
+        asdf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                asdf_func();
             }
         });
 
@@ -123,10 +136,46 @@ public class CreateTaskFragment extends Fragment {
             ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
             CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
 
+            boolean dataInserted = iGROW_db.insertIntoTable1(taskEditText.getText().toString(), timeTextView.getText().toString().substring(6));
+
+
+            if (dataInserted)
+                Toast.makeText(getContext(), "Data inserted", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getContext(), "Data NOT inserted", Toast.LENGTH_SHORT).show();
+
+
+
             getActivity().getSupportFragmentManager().popBackStackImmediate();
 
             if (myAlarmManager != null)
                 myAlarmManager.setExact(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), myPendingIntent); // the alarm gets fired at the time that the calendar was set above
         }
+    }
+
+    private void asdf_func() {
+        Cursor res = iGROW_db.getCurrentTasks();
+
+        if (res.getCount() == 0) {
+            showMessage("Error", "Nothing found");
+            return;
+        }
+
+        StringBuffer myBuffer = new StringBuffer();
+
+        while(res.moveToNext()) {
+            myBuffer.append("task : " + res.getString(0) + "\n");
+            myBuffer.append("time : " + res.getString(1) + "\n\n");
+        }
+
+        showMessage("Data", myBuffer.toString());
+    }
+
+    public void showMessage(String title, String message) {
+        AlertDialog.Builder myBuilder = new AlertDialog.Builder(getContext());
+        myBuilder.setCancelable(true);
+        myBuilder.setTitle(title);
+        myBuilder.setMessage(message);
+        myBuilder.show();
     }
 }

@@ -1,6 +1,7 @@
 package com.example.myplanner;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,8 @@ public class ExpiredTaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_expiredtasks, container, false);
 
+        populateArrayWithTasks();
+
         expiredTasks_ListView = (ListView) myView.findViewById(R.id.expiredTasks_LV);
         ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, expiredTasks_Array);
         ExpiredTaskFragment.expiredTasks_ListView.setAdapter(myArrayAdapter);
@@ -44,5 +47,14 @@ public class ExpiredTaskFragment extends Fragment {
         });
 
         return myView;
+    }
+
+    private void populateArrayWithTasks() {
+        DatabaseHandler iGROW_db = new DatabaseHandler(getContext());
+        Cursor res = iGROW_db.getExpiredTasks();
+
+        // By this point, the "expiredTasks_Array" is empty AND there are expired tasks stored in the database.
+        while(res.moveToNext())
+            expiredTasks_Array.add(res.getString(0));
     }
 }

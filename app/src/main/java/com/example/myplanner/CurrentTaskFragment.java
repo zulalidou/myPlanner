@@ -1,6 +1,7 @@
 package com.example.myplanner;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,13 +26,14 @@ public class CurrentTaskFragment extends Fragment {
     static ListView currentTasks_ListView;
     static ArrayList<String> currentTasks_Array = new ArrayList<String>();
     static HashMap<String, String> currentTasks_Map = new HashMap<String, String>();
-
     private FloatingActionButton addTask;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_currenttasks, container, false);
+
+        populateArrayWithTasks();
 
         currentTasks_ListView = (ListView) myView.findViewById(R.id.currentTasks_LV);
         ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, currentTasks_Array);
@@ -59,6 +61,24 @@ public class CurrentTaskFragment extends Fragment {
         });
 
         return myView;
+    }
+
+    private void populateArrayWithTasks() {
+        DatabaseHandler iGROW_db = new DatabaseHandler(getContext());
+        Cursor res = iGROW_db.getCurrentTasks();
+
+        // No current tasks saved in the database.
+        if (res.getCount() == 0)
+            return;
+        else {
+            // The "currentTasks_Array" already contains the tasks, so we don't need to re-populate it.
+            if (currentTasks_Array.size() > 0)
+                return;
+
+            // By this point, the "currentTasks_Array" is empty AND there are active tasks stored in the database.
+            while(res.moveToNext())
+                currentTasks_Array.add(res.getString(0));
+        }
     }
 
     private void createTask() {

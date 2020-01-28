@@ -72,6 +72,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         // Adds the task to "Expired_Tasks_Table"
         iGROW_db.insertIntoTable2(task, "now o'clock", "no bueno", "F");
+        ExpiredTaskFragment.expiredTasks_Array.add(task);
     }
 
     /*

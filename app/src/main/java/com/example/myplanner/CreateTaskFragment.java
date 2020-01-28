@@ -154,21 +154,7 @@ public class CreateTaskFragment extends Fragment {
     }
 
     private void asdf_func() {
-        Cursor res = iGROW_db.getCurrentTasks();
-
-        if (res.getCount() == 0) {
-            showMessage("Error", "Nothing found");
-            return;
-        }
-
-        StringBuffer myBuffer = new StringBuffer();
-
-        while(res.moveToNext()) {
-            myBuffer.append("task : " + res.getString(0) + "\n");
-            myBuffer.append("time : " + res.getString(1) + "\n\n");
-        }
-
-        showMessage("Data", myBuffer.toString());
+        iGROW_db.deleteFromTable2();
     }
 
     public void showMessage(String title, String message) {

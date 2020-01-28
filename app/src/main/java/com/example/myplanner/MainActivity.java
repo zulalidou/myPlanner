@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawer;
 
+    private NavigationView myNavView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         // To listen to click events on our navigation view, we need a reference to it.. hence, the variable below
-        NavigationView myNavView = findViewById(R.id.nav_view);
+        myNavView = findViewById(R.id.nav_view);
         myNavView.setNavigationItemSelectedListener(this);
 
 
@@ -97,6 +99,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myFragTrans.replace(R.id.fragment_container, newFragment).commit();
     }
      */
+
+    // Link: http://www.helloandroid.com/tutorials/communicating-between-running-activities
+    // There's only one activity, which is MainActivity, and is always at the top of the stack. Suppose a user is using the app and the notification
+    // notifying the users that the time set for a task has expired. When the user touches/clicks the notification, instead of a new instance of the
+    // MainActivity class being called, this function below gets called instead.
+    // - This method gets executed (instead of the onCreate method) if we're trying to create a new instance of an activity that's already at the top
+    //   of the foreground task, and that activity's launchMode is set to "singleTop"
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent); // replaces the old intent with the new intent created by clicking the notification
+
+        if (getIntent().getStringExtra("Open 'expired fragment' on notification click") != null) {
+            myNavView.setCheckedItem(R.id.nav_expiredTasks);
+
+            // The code below displays the "ExpiredTasks" fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ExpiredTaskFragment()).commit();
+        }
+        else {
+            myNavView.setCheckedItem(R.id.nav_currentTasks);
+
+            // The code below displays the "CurrentTasks" fragment
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CurrentTaskFragment()).commit();
+        }
+    }
 
 
     // When we press the back button when the navigation drawer is opened, we don't want to leave

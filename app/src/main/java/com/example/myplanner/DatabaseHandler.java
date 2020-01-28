@@ -88,14 +88,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Cursor getCurrentTasks() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE1, null);
-
         return res;
     }
 
     public Cursor getExpiredTasks() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE2, null);
-
         return res;
     }
 
@@ -106,5 +104,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // If no data is deleted, 0 is returned.
         // The question mark in the whereClause gets replaced by the value(s) passed as the 3rd argument in the delete method.
         return db.delete(TABLE1, "Tasks = ?", new String[] {task});
+    }
+
+    public Integer deleteFromTable2() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // The delete method below returns the number of rows affected if a whereClause is passed in.
+        // If no data is deleted, 0 is returned.
+        // The question mark in the whereClause gets replaced by the value(s) passed as the 3rd argument in the delete method.
+        return db.delete(TABLE2, null, null);
     }
 }

@@ -54,7 +54,11 @@ public class ExpiredTaskFragment extends Fragment {
         Cursor res = iGROW_db.getExpiredTasks();
 
         // By this point, the "expiredTasks_Array" is empty AND there are expired tasks stored in the database.
-        while(res.moveToNext())
-            expiredTasks_Array.add(res.getString(0));
+        if (expiredTasks_Array.size() == 0) {
+            while (res.moveToNext())
+                expiredTasks_Array.add(res.getString(0));
+        }
+        else
+            return;
     }
 }

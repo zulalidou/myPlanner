@@ -6,10 +6,17 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.util.Date;
 import java.util.Random;
@@ -32,7 +39,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         buildNotification(context, task, myPendingIntent);
         updateDatabase(context, task);
-        //sendTaskToExpiredList(context, task);
     }
 
     private void buildNotification(Context context, String task, PendingIntent myPendingIntent) {
@@ -59,25 +65,29 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void updateDatabase (Context context, String task) {
-
-        // Removes the task from the current list
-        CurrentTaskFragment.currentTasks_Array.remove(task);
-        CurrentTaskFragment.currentTasks_Map.remove(task);
-        ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
-        CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
-
-        // Removes the task from "Current_Tasks_Table"
         DatabaseHandler iGROW_db = new DatabaseHandler(context);
-        iGROW_db.deleteFromTable1(task);
+        Cursor res = iGROW_db.getCurrentTask(task);
+
+        res.moveToNext();
+        String description = res.getString(1);
+        int requestCode = res.getInt(2);
+        String time = res.getString(3);
+
 
         // Adds the task to "Expired_Tasks_Table"
-        iGROW_db.insertIntoTable2(task, "now o'clock", "no bueno", "F");
+        iGROW_db.insertIntoTable2(task, description, requestCode, time, "Did ok i guess :/", "B");
         ExpiredTaskFragment.expiredTasks_Array.add(task);
-    }
 
-    /*
-    private void sendTaskToExpiredList (Context context, String task) {
-        ExpiredTaskFragment.expiredTasks_Array.add(task);
+        // Removes the task from "Current_Tasks_Table"
+        iGROW_db.deleteFromTable1(task);
+        CurrentTaskFragment.currentTasks_Array.remove(task);
+
+        if (CurrentTaskFragment.currentTasks_ListView != null) {
+            ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
+            CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
+        }
+
+        Log.d("AR => ", "updateDatabase");
+        // CurrentTaskFragment.currentTasks_ListView == null when we complete
     }
-     */
 }

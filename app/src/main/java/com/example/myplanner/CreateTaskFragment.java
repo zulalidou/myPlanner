@@ -40,10 +40,11 @@ public class CreateTaskFragment extends Fragment {
     private TextView taskTextView, descriptionTextView, timeTextView;
     public static EditText taskEditText, descriptionEditText;
     private Button setTimeBtn, saveNewTaskBtn, asdf, delete;
+    private int requestCode;
 
     private TimePickerDialog myTimePickerDialog;
-
     private static final Calendar myCalendar = Calendar.getInstance();
+
     private AlarmManager myAlarmManager;
     private PendingIntent myPendingIntent;
 
@@ -118,7 +119,10 @@ public class CreateTaskFragment extends Fragment {
 
         Intent myIntent = new Intent(getActivity(), AlarmReceiver.class);
         myIntent.putExtra("task_name", taskEditText.getText().toString());
-        myPendingIntent = PendingIntent.getBroadcast(getActivity(), (int) System.currentTimeMillis(), myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        //myIntent.putExtra("requestCode", requestCode);
+
+        requestCode = (int) System.currentTimeMillis();
+        myPendingIntent = PendingIntent.getBroadcast(getActivity(), requestCode, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private void saveNewTask() {
@@ -131,18 +135,22 @@ public class CreateTaskFragment extends Fragment {
         else {
             Toast.makeText(getContext(), "New task added", Toast.LENGTH_LONG).show();
 
-            CurrentTaskFragment.currentTasks_Map.put(taskEditText.getText().toString(), descriptionEditText.getText().toString());
-            CurrentTaskFragment.currentTasks_Array.add(taskEditText.getText().toString());
+            String taskName = taskEditText.getText().toString();
+            String taskDescription = descriptionEditText.getText().toString();
+            int taskRequestCode = requestCode;
+            String taskTime = timeTextView.getText().toString();
+
+            CurrentTaskFragment.currentTasks_Array.add(taskName);
             ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
             CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
 
-            boolean dataInserted = iGROW_db.insertIntoTable1(taskEditText.getText().toString(), timeTextView.getText().toString().substring(6));
-
+            boolean dataInserted = iGROW_db.insertIntoTable1(taskName, taskDescription, taskRequestCode, taskTime);
 
             if (dataInserted)
-                Toast.makeText(getContext(), "Data inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "YES, data is inserted", Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(getContext(), "Data NOT inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "NO, data HASN'T been inserted", Toast.LENGTH_SHORT).show();
+
 
 
 
@@ -154,6 +162,10 @@ public class CreateTaskFragment extends Fragment {
     }
 
     private void asdf_func() {
+        iGROW_db.deleteFromTable1("jjjj");
+        iGROW_db.deleteFromTable1("5.23p");
+
+
         iGROW_db.deleteFromTable2();
     }
 

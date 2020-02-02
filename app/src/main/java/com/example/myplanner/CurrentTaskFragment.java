@@ -24,8 +24,7 @@ import java.util.HashMap;
 
 public class CurrentTaskFragment extends Fragment {
     static ListView currentTasks_ListView;
-    static ArrayList<String> currentTasks_Array = new ArrayList<String>();
-    static HashMap<String, String> currentTasks_Map = new HashMap<String, String>();
+    static ArrayList<String> currentTasks_Array = new ArrayList<String>();  // Needed to populate the listview
     private FloatingActionButton addTask;
 
     @Nullable
@@ -33,7 +32,7 @@ public class CurrentTaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_currenttasks, container, false);
 
-        populateArrayWithTasks();
+        retrieveTasksFromDB();
 
         currentTasks_ListView = (ListView) myView.findViewById(R.id.currentTasks_LV);
         ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, currentTasks_Array);
@@ -63,20 +62,19 @@ public class CurrentTaskFragment extends Fragment {
         return myView;
     }
 
-    private void populateArrayWithTasks() {
+    private void retrieveTasksFromDB() {
         DatabaseHandler iGROW_db = new DatabaseHandler(getContext());
-        Cursor res = iGROW_db.getCurrentTasks();
+        Cursor res = iGROW_db.getAllCurrentTasks();
 
-        // No current tasks saved in the database.
+        // The database isn't storing any active tasks
         if (res.getCount() == 0)
             return;
         else {
-            // The "currentTasks_Array" already contains the tasks, so we don't need to re-populate it.
-            if (currentTasks_Array.size() > 0)
+            if (currentTasks_Array.size() >= 1)
                 return;
 
-            // By this point, the "currentTasks_Array" is empty AND there are active tasks stored in the database.
-            while(res.moveToNext())
+            // We populate the map, & check whether it's ok to also populate the array
+            while (res.moveToNext())
                 currentTasks_Array.add(res.getString(0));
         }
     }

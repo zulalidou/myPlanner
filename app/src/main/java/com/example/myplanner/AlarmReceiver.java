@@ -27,15 +27,16 @@ public class AlarmReceiver extends BroadcastReceiver {
     // This method is called when the alarm gets fired.. so we want to show the notification when it gets fired
     @Override
     public void onReceive(Context context, Intent intent) {
+        String task = intent.getStringExtra("task_name");
+
         Intent myIntent = new Intent(context, MainActivity.class);
-        myIntent.putExtra("Open 'expired fragment' on notification click", "true");
+        myIntent.putExtra("A task has just expired", task);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK); // Forces 'FLAG_ACTIVITY_NEW_TASK' to start a new task
 
         PendingIntent myPendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), myIntent, 0);
 
-        String task = intent.getStringExtra("task_name");
 
         buildNotification(context, task, myPendingIntent);
         updateDatabase(context, task);
@@ -87,7 +88,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
         }
 
-        Log.d("AR => ", "updateDatabase");
+        //Log.d("AR => ", "updateDatabase");
         // CurrentTaskFragment.currentTasks_ListView == null when we complete
     }
 }

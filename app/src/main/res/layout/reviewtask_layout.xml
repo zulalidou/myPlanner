@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/reviewDialogBox_title"
+        android:text="Review Task"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/reviewDialogBox_taskName"
+        android:textSize="50dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reviewDialogBox_title"/>
+
+    <EditText
+        android:id="@+id/reviewDialogBox_review"
+        android:hint="Please write a short message on how you think you performed this task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reviewDialogBox_taskName"/>
+
+    <TextView
+        android:id="@+id/grades_title"
+        android:text="Please Rate Your Performance"
+        android:textSize="17dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reviewDialogBox_review"/>
+
+    <Spinner
+        android:id="@+id/mySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/grades_title"
+        />
+
+
+</RelativeLayout>

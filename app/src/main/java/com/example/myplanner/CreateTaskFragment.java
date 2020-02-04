@@ -153,7 +153,6 @@ public class CreateTaskFragment extends Fragment {
 
 
 
-
             getActivity().getSupportFragmentManager().popBackStackImmediate();
 
             if (myAlarmManager != null)
@@ -163,9 +162,6 @@ public class CreateTaskFragment extends Fragment {
 
     private void asdf_func() {
         iGROW_db.deleteFromTable1("jjjj");
-        iGROW_db.deleteFromTable1("5.23p");
-
-
         iGROW_db.deleteFromTable2();
     }
 

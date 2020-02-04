@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // -- savedInstanceState is null if the activity is started for the first time, or we leave the current activity
         //    through the back button, and get back to it. Rotating the device will cause "savedInstanceState to not be null
         if (savedInstanceState == null) {
-            if (getIntent().getStringExtra("Open 'expired fragment' on notification click") != null) {
+            if (getIntent().getStringExtra("A task has just expired") != null) {
                 myNavView.setCheckedItem(R.id.nav_expiredTasks);
 
                 // The code below displays the "ExpiredTasks" fragment
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
 
     // Link: http://www.helloandroid.com/tutorials/communicating-between-running-activities
-    // There's only one activity, which is MainActivity, and is always at the top of the stack. Suppose a user is using the app and the notification
+    // There's only one activity, which is MainActivity, and it's always at the top of the stack. Suppose a user is using the app and the notification
     // notifying the users that the time set for a task has expired. When the user touches/clicks the notification, instead of a new instance of the
     // MainActivity class being called, this function below gets called instead.
     // - This method gets executed (instead of the onCreate method) if we're trying to create a new instance of an activity that's already at the top
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onNewIntent(intent);
         setIntent(intent); // replaces the old intent with the new intent created by clicking the notification
 
-        if (getIntent().getStringExtra("Open 'expired fragment' on notification click") != null) {
+        if (getIntent().getStringExtra("A task has just expired") != null) {
             myNavView.setCheckedItem(R.id.nav_expiredTasks);
 
             // The code below displays the "ExpiredTasks" fragment

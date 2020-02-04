@@ -3,6 +3,7 @@ package com.example.myplanner;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ public class CurrentTaskFragment extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_currenttasks, container, false);
 
         retrieveTasksFromDB();
+        Log.d("onCreate_CURRENT", "hello from currentTaskFrag");
 
         currentTasks_ListView = (ListView) myView.findViewById(R.id.currentTasks_LV);
         ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, currentTasks_Array);

@@ -1,5 +1,6 @@
 package com.example.myplanner;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -28,13 +29,29 @@ public class ExpiredTaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_expiredtasks, container, false);
 
-        retrieveTasksFromDB();
-
         expiredTasks_ListView = (ListView) myView.findViewById(R.id.expiredTasks_LV);
+
+        retrieveTasksFromDB();
+        Log.d("onCreate_EXPIRED", "hello from expiredTaskFrag");
+
+
         ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, expiredTasks_Array);
         ExpiredTaskFragment.expiredTasks_ListView.setAdapter(myArrayAdapter);
-
         expiredTasks_ListView.setAdapter(myArrayAdapter);
+
+
+        if (getActivity().getIntent().getStringExtra("A task has just expired") != null) {
+            String task = getActivity().getIntent().getStringExtra("A task has just expired");
+
+            ReviewDialog myReviewDialog = new ReviewDialog(task);
+            myReviewDialog.show(getFragmentManager(), "reviewDialog");
+
+
+            // The line below is necessary because it makes sure that the next time this (expiredTaskFragment) fragment gets opened, it doesn't
+            // show the review dialog box; the review dialog box is ONLY shown after the user clicks on the notification that informs them that
+            // the time allocated to accomplishing their task has come
+            getActivity().getIntent().removeExtra("A task has just expired");
+        }
 
         /*
         expiredTasks_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -61,5 +78,13 @@ public class ExpiredTaskFragment extends Fragment {
 
         while (res.moveToNext())
             expiredTasks_Array.add(res.getString(0));
+    }
+
+    public void showMessage(String title, String message) {
+        AlertDialog.Builder myBuilder = new AlertDialog.Builder(getContext());
+        myBuilder.setCancelable(true);
+        myBuilder.setTitle(title);
+        myBuilder.setMessage(message);
+        myBuilder.show();
     }
 }

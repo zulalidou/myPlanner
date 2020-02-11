@@ -74,6 +74,20 @@ public class AlarmReceiver extends BroadcastReceiver {
         int requestCode = res.getInt(2);
         String time = res.getString(3);
 
+        iGROW_db.insertIntoTable3(task, description, requestCode, time);
+
+
+        /*
+        DatabaseHandler iGROW_db = new DatabaseHandler(context);
+        Cursor res = iGROW_db.getCurrentTask(task);
+
+        Log.d("TAG", "res = " + res);
+
+        res.moveToNext();
+        String description = res.getString(1);
+        int requestCode = res.getInt(2);
+        String time = res.getString(3);
+
 
         // Adds the task to "Expired_Tasks_Table"
         iGROW_db.insertIntoTable2(task, description, requestCode, time, "Did ok i guess :/", "B");
@@ -83,10 +97,14 @@ public class AlarmReceiver extends BroadcastReceiver {
         iGROW_db.deleteFromTable1(task);
         CurrentTaskFragment.currentTasks_Array.remove(task);
 
+
+
         if (CurrentTaskFragment.currentTasks_ListView != null) {
             ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
             CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
         }
+
+ */
 
         //Log.d("AR => ", "updateDatabase");
         // CurrentTaskFragment.currentTasks_ListView == null when we complete

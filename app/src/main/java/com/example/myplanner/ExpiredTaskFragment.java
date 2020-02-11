@@ -29,18 +29,34 @@ public class ExpiredTaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_expiredtasks, container, false);
 
+        MainActivity.toolbar.setTitle("Expired tasks");
         expiredTasks_ListView = (ListView) myView.findViewById(R.id.expiredTasks_LV);
 
         retrieveTasksFromDB();
-        Log.d("onCreate_EXPIRED", "hello from expiredTaskFrag");
-
 
         ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, expiredTasks_Array);
         ExpiredTaskFragment.expiredTasks_ListView.setAdapter(myArrayAdapter);
         expiredTasks_ListView.setAdapter(myArrayAdapter);
 
 
-        if (getActivity().getIntent().getStringExtra("A task has just expired") != null) {
+
+
+
+
+        DatabaseHandler iGROW_db = new DatabaseHandler(getContext());
+        Cursor res = iGROW_db.getItemsFromTable3();
+
+        if (res.getCount() != 0) {
+            Log.d("qwerty", "res = " + res);
+            res.moveToNext();
+            String task = res.getString(0);
+
+            ReviewDialog myReviewDialog = new ReviewDialog(task);
+            myReviewDialog.show(getFragmentManager(), "reviewDialog");
+        }
+
+
+        else if (getActivity().getIntent().getStringExtra("A task has just expired") != null) {
             String task = getActivity().getIntent().getStringExtra("A task has just expired");
 
             ReviewDialog myReviewDialog = new ReviewDialog(task);

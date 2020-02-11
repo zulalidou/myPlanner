@@ -33,6 +33,9 @@ public class CurrentTaskFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_currenttasks, container, false);
 
+        MainActivity.toolbar.setTitle("Current tasks");
+
+
         retrieveTasksFromDB();
         Log.d("onCreate_CURRENT", "hello from currentTaskFrag");
 

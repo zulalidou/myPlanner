@@ -34,9 +34,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String TABLE2_COL6 = "Grade";
 
 
+    public static final String TABLE3 = "ReviewDialog_Table";
+    public static final String TABLE3_COL1 = "Tasks";
+    public static final String TABLE3_COL2 = "Descriptions";
+    public static final String TABLE3_COL3 = "Request_Codes";
+    public static final String TABLE3_COL4 = "Time";
+
     // The database for this app gets created when this constructor gets called.
     public DatabaseHandler(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 3); // This line creates the database.
+        super(context, DATABASE_NAME, null, 4); // This line creates the database.
     }
 
     // When the "onCreate" method gets called, the tables for the database gets created.
@@ -44,12 +50,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE1 + " (Tasks TEXT, Descriptions TEXT, Request_Codes INTEGER, Time TEXT)");
         db.execSQL("create table " + TABLE2 + " (Tasks TEXT, Descriptions TEXT, Request_Codes INTEGER, Time TEXT, Review TEXT, Grade TEXT)");
+        db.execSQL("create table " + TABLE3 + " (Tasks TEXT, Descriptions TEXT, Request_Codes INTEGER, Time TEXT)");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + TABLE1);
         db.execSQL("drop table if exists " + TABLE2);
+        db.execSQL("drop table if exists " + TABLE3);
         onCreate(db);
     }
 
@@ -94,6 +102,25 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             return true;
     }
 
+    public boolean insertIntoTable3(String task, String description, int requestCode, String time) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues myContentValues =  new ContentValues();
+
+        myContentValues.put(TABLE3_COL1, task);
+        myContentValues.put(TABLE3_COL2, description);
+        myContentValues.put(TABLE3_COL3, requestCode);
+        myContentValues.put(TABLE3_COL4, time);
+
+        // If the data passed in wasn't inserted in the db, then the insert method (below) returns "-1".
+        // Otherwise, it returns the ID of the newly inserted row.
+        long rowID = db.insert(TABLE3, null, myContentValues);
+
+        if (rowID == -1)
+            return false;
+        else
+            return true;
+    }
+
     public Cursor getAllCurrentTasks() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE1, null);
@@ -109,6 +136,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Cursor getAllExpiredTasks() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE2, null);
+        return res;
+    }
+
+    public Cursor getItemsFromTable3() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE3, null);
         return res;
     }
 
@@ -129,5 +162,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // If no data is deleted, 0 is returned.
         // The question mark in the whereClause gets replaced by the value(s) passed as the 3rd argument in the delete method.
         return db.delete(TABLE2, null, null);
+    }
+
+    public Integer deleteFromTable3(String task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // The delete method below returns the number of rows affected if a whereClause is passed in.
+        // If no data is deleted, 0 is returned.
+        // The question mark in the whereClause gets replaced by the value(s) passed as the 3rd argument in the delete method.
+        return db.delete(TABLE3, "Tasks = ?", new String[] {task});
     }
 }

@@ -43,7 +43,7 @@ public class ReviewDialog extends AppCompatDialogFragment {
         myBuilder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                // this function is left empty on purpose
             }
         });
 
@@ -69,16 +69,6 @@ public class ReviewDialog extends AppCompatDialogFragment {
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(myAdapter);
 
-/*
-        final AlertDialog myDialog = myBuilder.create();
-        myDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateDatabase(myDialog);
-            }
-        });
-
- */
 
         return myDialog;//myBuilder.create();
     }
@@ -94,7 +84,6 @@ public class ReviewDialog extends AppCompatDialogFragment {
             String description = res.getString(1);
             int requestCode = res.getInt(2);
             String time = res.getString(3);
-
 
 
             // Adds the task to "Expired_Tasks_Table"

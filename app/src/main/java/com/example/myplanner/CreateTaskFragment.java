@@ -1,13 +1,10 @@
 package com.example.myplanner;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,21 +15,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 
 
@@ -84,6 +69,7 @@ public class CreateTaskFragment extends Fragment {
         asdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
                 asdf_func();
             }
         });
@@ -155,11 +141,8 @@ public class CreateTaskFragment extends Fragment {
 
             getActivity().getSupportFragmentManager().popBackStackImmediate();
 
-            if (myAlarmManager != null) {
-
-
+            if (myAlarmManager != null)
                 myAlarmManager.setExact(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), myPendingIntent); // the alarm gets fired at the time that the calendar was set above
-            }
         }
     }
 
@@ -168,13 +151,5 @@ public class CreateTaskFragment extends Fragment {
         iGROW_db.deleteFromTable1("boy");
         iGROW_db.deleteFromTable2();
         iGROW_db.deleteFromTable3("asdf");
-    }
-
-    public void showMessage(String title, String message) {
-        AlertDialog.Builder myBuilder = new AlertDialog.Builder(getContext());
-        myBuilder.setCancelable(true);
-        myBuilder.setTitle(title);
-        myBuilder.setMessage(message);
-        myBuilder.show();
     }
 }

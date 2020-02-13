@@ -59,38 +59,6 @@ public class ExpiredTaskFragment extends Fragment {
             myReviewDialog.show(getFragmentManager(), "reviewDialog");
         }
 
-/*
-        if (getActivity().getIntent().getStringExtra("A task has just expired") != null) {
-            String task = getActivity().getIntent().getStringExtra("A task has just expired");
-
-            //res = iGROW_db.getExpiredTask(task);
-
-            ReviewDialog myReviewDialog = new ReviewDialog(task);
-            myReviewDialog.show(getFragmentManager(), "reviewDialog");
-
-
-            // The line below is necessary because it makes sure that the next time this (expiredTaskFragment) fragment gets opened, it doesn't
-            // show the review dialog box; the review dialog box is ONLY shown after the user clicks on the notification that informs them that
-            // the time allocated to accomplishing their task has come
-            getActivity().getIntent().removeExtra("A task has just expired");
-        }
-
- */
-
-        /*
-        expiredTasks_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String taskName = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getContext(), taskName, Toast.LENGTH_SHORT).show();
-
-                Intent myIntent = new Intent(getActivity(), TaskInfoActivity.class);
-                myIntent.putExtra("myKey", taskName);
-                startActivity(myIntent);
-            }
-        });
-         */
-
         return myView;
     }
 
@@ -102,13 +70,5 @@ public class ExpiredTaskFragment extends Fragment {
 
         while (res.moveToNext())
             expiredTasks_Array.add(res.getString(0));
-    }
-
-    public void showMessage(String title, String message) {
-        AlertDialog.Builder myBuilder = new AlertDialog.Builder(getContext());
-        myBuilder.setCancelable(true);
-        myBuilder.setTitle(title);
-        myBuilder.setMessage(message);
-        myBuilder.show();
     }
 }

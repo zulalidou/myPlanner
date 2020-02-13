@@ -1,25 +1,13 @@
 package com.example.myplanner;
 
-import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import java.util.Date;
-import java.util.Random;
 
 public class AlarmReceiver extends BroadcastReceiver {
     private static NotificationManager myNotificationManager;
@@ -37,9 +25,8 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         PendingIntent myPendingIntent = PendingIntent.getActivity(context, (int) System.currentTimeMillis(), myIntent, 0);
 
-
         buildNotification(context, task, myPendingIntent);
-        updateDatabase(context, task);
+        saveTaskInTable3(context, task);
     }
 
     private void buildNotification(Context context, String task, PendingIntent myPendingIntent) {
@@ -65,7 +52,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         return myNotificationManager;
     }
 
-    private void updateDatabase (Context context, String task) {
+    private void saveTaskInTable3 (Context context, String task) {
         DatabaseHandler iGROW_db = new DatabaseHandler(context);
         Cursor res = iGROW_db.getCurrentTask(task);
 
@@ -75,38 +62,5 @@ public class AlarmReceiver extends BroadcastReceiver {
         String time = res.getString(3);
 
         iGROW_db.insertIntoTable3(task, description, requestCode, time);
-
-
-        /*
-        DatabaseHandler iGROW_db = new DatabaseHandler(context);
-        Cursor res = iGROW_db.getCurrentTask(task);
-
-        Log.d("TAG", "res = " + res);
-
-        res.moveToNext();
-        String description = res.getString(1);
-        int requestCode = res.getInt(2);
-        String time = res.getString(3);
-
-
-        // Adds the task to "Expired_Tasks_Table"
-        iGROW_db.insertIntoTable2(task, description, requestCode, time, "Did ok i guess :/", "B");
-        ExpiredTaskFragment.expiredTasks_Array.add(task);
-
-        // Removes the task from "Current_Tasks_Table"
-        iGROW_db.deleteFromTable1(task);
-        CurrentTaskFragment.currentTasks_Array.remove(task);
-
-
-
-        if (CurrentTaskFragment.currentTasks_ListView != null) {
-            ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
-            CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
-        }
-
- */
-
-        //Log.d("AR => ", "updateDatabase");
-        // CurrentTaskFragment.currentTasks_ListView == null when we complete
     }
 }

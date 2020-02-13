@@ -33,12 +33,12 @@
         android:gravity="center"
         android:layout_below="@+id/taskName_TV_answer"/>
 
-    <EditText
+    <TextView
         android:id="@+id/taskDescription_ET_answer"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:gravity="start|top"
+        android:gravity="center"
         android:inputType="textMultiLine"
         android:layout_below="@+id/taskDescription_TV_header"/>
 

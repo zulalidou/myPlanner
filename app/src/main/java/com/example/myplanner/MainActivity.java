@@ -62,17 +62,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             DatabaseHandler iGROW_db = new DatabaseHandler(getBaseContext());
             Cursor res = iGROW_db.getItemsFromTable3();
 
-            // A task had expired and the user went over to the "expiredTaskFragment", but failed to review their performance & exited the app.
-            // So, we need to make sure that if there exists at least 1 task in Table 3 (the ReviewDialog table), we MUST go immediately to the
-            // "expiredTaskFragment" and (once again) prompt the user to review their performance on the expired task.
+            // -----------------------------------------------------------------------------------------------------------------------------------------------------
+            // 1st case: When a task expires, it gets placed in the ReviewDialog table. When the users head to the "expiredTaskFragment", but fail to review their
+            // performance & exit the app, we need to make sure that the next time they open the open, they're immediately prompted to review the expired task(s).
+            // So if there exists at least 1 task in the ReviewDialog table, the "if" condition below will be executed
+            // -----------------------------------------------------------------------------------------------------------------------------------------------------
+            // 2nd case: When the users click the notification for a task that just expired (and there is currently no task history of the app on the users' phones)
+            // -----------------------------------------------------------------------------------------------------------------------------------------------------
             if (res.getCount() >= 1 || getIntent().getStringExtra("A task has just expired") != null) {
-                if (res != null)
-                    Toast.makeText(this, "t1", Toast.LENGTH_SHORT).show();
-
-                if (getIntent().getStringExtra("A task has just expired") != null)
-                    Toast.makeText(this, "t2", Toast.LENGTH_SHORT).show();
-
-
                 myNavView.setCheckedItem(R.id.nav_expiredTasks);
 
                 // The code below displays the "ExpiredTasks" fragment
@@ -80,28 +77,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
 
-
-
-
-
-            // this is for when the users click the notification for a task that just expired, and there is currently no task history
-            // of the app on the users' phones
-            /*
-            if (getIntent().getStringExtra("A task has just expired") != null) {
-                myNavView.setCheckedItem(R.id.nav_expiredTasks);
-
-                // The code below displays the "ExpiredTasks" fragment
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ExpiredTaskFragment()).commit();
-            }
-
-             */
+            // When there aren't any task that have expired (or HAVE expired but have also been reviewed)
             else {
                 myNavView.setCheckedItem(R.id.nav_currentTasks);
 
                 // The code below displays the "CurrentTasks" fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CurrentTaskFragment()).commit();
             }
-
         }
     }
 
@@ -111,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else
             toolbar.setTitle("Current tasks");
     }
-
-
 
 
     // The "listener" method for the navigation view. Determines which fragments to show based on
@@ -134,15 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true; // this means an item/tab (from the navigation view) will be selected..
     }
 
-    /*
-    private void openExpiredTasksFragment() {
-        Toast.makeText(this, "openExpiredTasksFragment() called", Toast.LENGTH_SHORT).show();
-
-        ExpiredTaskFragment newFragment = new ExpiredTaskFragment();
-        FragmentTransaction myFragTrans = getSupportFragmentManager().beginTransaction();
-        myFragTrans.replace(R.id.fragment_container, newFragment).commit();
-    }
-     */
 
     // Link: http://www.helloandroid.com/tutorials/communicating-between-running-activities
     // There's only one activity, which is MainActivity, and it's always at the top of the stack. Suppose a user is using the app and the notification

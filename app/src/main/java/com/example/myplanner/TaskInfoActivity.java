@@ -17,10 +17,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class TaskInfoActivity extends AppCompatActivity {
     //private Toolbar toolbar;
     private TextView taskName;
-    private EditText taskDescription;
+    private TextView taskDescription;
     private Button deleteTask;
 
     private String task;
@@ -35,7 +37,7 @@ public class TaskInfoActivity extends AppCompatActivity {
 
 
         taskName = (TextView) findViewById(R.id.taskName_TV_answer);
-        taskDescription = (EditText) findViewById(R.id.taskDescription_ET_answer);
+        taskDescription = (TextView) findViewById(R.id.taskDescription_ET_answer);
         deleteTask = (Button) findViewById(R.id.deleteTask_BTN);
 
 

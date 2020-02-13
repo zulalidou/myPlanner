@@ -96,6 +96,7 @@ public class ReviewDialog extends AppCompatDialogFragment {
             String time = res.getString(3);
 
 
+
             // Adds the task to "Expired_Tasks_Table"
             iGROW_db.insertIntoTable2(task, description, requestCode, time, review.getText().toString(), mySpinner.getSelectedItem().toString());
             ExpiredTaskFragment.expiredTasks_Array.add(task);
@@ -105,14 +106,20 @@ public class ReviewDialog extends AppCompatDialogFragment {
             // Removes the task from "Current_Tasks_Table"
             iGROW_db.deleteFromTable1(task);
             CurrentTaskFragment.currentTasks_Array.remove(task);
-            ArrayAdapter<String> myArrayAdapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
-            CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter2);
+
+            /*
+            if (CurrentTaskFragment.currentTasks_ListView != null) {
+                ArrayAdapter<String> myArrayAdapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
+                CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter2);
+            }
+             */
 
 
             // Removes the task from "Current_Tasks_Table"
             iGROW_db.deleteFromTable3(task);
 
             Toast.makeText(getContext(), "Review saved!", Toast.LENGTH_SHORT).show();
+
             myDialog.dismiss();
         }
     }

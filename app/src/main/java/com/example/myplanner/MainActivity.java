@@ -65,7 +65,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // A task had expired and the user went over to the "expiredTaskFragment", but failed to review their performance & exited the app.
             // So, we need to make sure that if there exists at least 1 task in Table 3 (the ReviewDialog table), we MUST go immediately to the
             // "expiredTaskFragment" and (once again) prompt the user to review their performance on the expired task.
-            if (res != null) {
+            if (res.getCount() >= 1 || getIntent().getStringExtra("A task has just expired") != null) {
+                if (res != null)
+                    Toast.makeText(this, "t1", Toast.LENGTH_SHORT).show();
+
+                if (getIntent().getStringExtra("A task has just expired") != null)
+                    Toast.makeText(this, "t2", Toast.LENGTH_SHORT).show();
+
+
                 myNavView.setCheckedItem(R.id.nav_expiredTasks);
 
                 // The code below displays the "ExpiredTasks" fragment
@@ -79,12 +86,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             // this is for when the users click the notification for a task that just expired, and there is currently no task history
             // of the app on the users' phones
+            /*
             if (getIntent().getStringExtra("A task has just expired") != null) {
                 myNavView.setCheckedItem(R.id.nav_expiredTasks);
 
                 // The code below displays the "ExpiredTasks" fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ExpiredTaskFragment()).commit();
             }
+
+             */
             else {
                 myNavView.setCheckedItem(R.id.nav_currentTasks);
 

@@ -42,7 +42,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // The database for this app gets created when this constructor gets called.
     public DatabaseHandler(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, 4); // This line creates the database.
+        super(context, DATABASE_NAME, null, 5); // This line creates the database.
     }
 
     // When the "onCreate" method gets called, the tables for the database gets created.
@@ -130,6 +130,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Cursor getCurrentTask(String task) {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE1 + " where " + TABLE1_COL1 + " = '" + task + "'", null);
+        return res;
+    }
+
+    public Cursor getExpiredTask(String task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE2 + " where " + TABLE2_COL1 + " = '" + task + "'", null);
         return res;
     }
 

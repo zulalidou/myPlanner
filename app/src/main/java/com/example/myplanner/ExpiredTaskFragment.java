@@ -41,23 +41,29 @@ public class ExpiredTaskFragment extends Fragment {
 
 
 
+        // The line below is necessary because it makes sure that the next time this (expiredTaskFragment) fragment gets opened, it doesn't
+        // show the review dialog box; the review dialog box is ONLY shown after the user clicks on the notification that informs them that
+        // the time allocated to accomplishing their task has come
+        if (getActivity().getIntent().getStringExtra("A task has just expired") != null)
+            getActivity().getIntent().removeExtra("A task has just expired");
 
 
         DatabaseHandler iGROW_db = new DatabaseHandler(getContext());
         Cursor res = iGROW_db.getItemsFromTable3();
 
-        if (res.getCount() != 0) {
-            Log.d("qwerty", "res = " + res);
-            res.moveToNext();
+        while (res.moveToNext()) {
+            Log.d("qwerty", "count = " + res.getCount());
             String task = res.getString(0);
 
             ReviewDialog myReviewDialog = new ReviewDialog(task);
             myReviewDialog.show(getFragmentManager(), "reviewDialog");
         }
 
-
-        else if (getActivity().getIntent().getStringExtra("A task has just expired") != null) {
+/*
+        if (getActivity().getIntent().getStringExtra("A task has just expired") != null) {
             String task = getActivity().getIntent().getStringExtra("A task has just expired");
+
+            //res = iGROW_db.getExpiredTask(task);
 
             ReviewDialog myReviewDialog = new ReviewDialog(task);
             myReviewDialog.show(getFragmentManager(), "reviewDialog");
@@ -68,6 +74,8 @@ public class ExpiredTaskFragment extends Fragment {
             // the time allocated to accomplishing their task has come
             getActivity().getIntent().removeExtra("A task has just expired");
         }
+
+ */
 
         /*
         expiredTasks_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

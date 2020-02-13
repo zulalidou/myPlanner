@@ -155,14 +155,19 @@ public class CreateTaskFragment extends Fragment {
 
             getActivity().getSupportFragmentManager().popBackStackImmediate();
 
-            if (myAlarmManager != null)
+            if (myAlarmManager != null) {
+
+
                 myAlarmManager.setExact(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), myPendingIntent); // the alarm gets fired at the time that the calendar was set above
+            }
         }
     }
 
     private void asdf_func() {
-        iGROW_db.deleteFromTable1("jjjj");
+        iGROW_db.deleteFromTable1("c");
+        iGROW_db.deleteFromTable1("boy");
         iGROW_db.deleteFromTable2();
+        iGROW_db.deleteFromTable3("asdf");
     }
 
     public void showMessage(String title, String message) {

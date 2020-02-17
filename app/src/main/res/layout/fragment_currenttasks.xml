@@ -5,6 +5,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ImageView
+        android:id="@+id/checkbox_current_IV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ListView
         android:id="@+id/currentTasks_LV"
         android:layout_width="match_parent"
@@ -13,8 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent">
+    </ListView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"

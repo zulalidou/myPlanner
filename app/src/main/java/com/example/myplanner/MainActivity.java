@@ -11,7 +11,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -25,16 +28,21 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     static Toolbar toolbar;
     private DrawerLayout drawer;
-
     private NavigationView myNavView;
+
+    private AlarmManager alarmMgr;
+    private PendingIntent alarmIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         toolbar = findViewById(R.id.toolbar);
         setToolbarTitle();
@@ -50,6 +58,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // To listen to click events on our navigation view, we need a reference to it.. hence, the variable below
         myNavView = findViewById(R.id.nav_view);
         myNavView.setNavigationItemSelectedListener(this);
+
+
+
+        /*
+        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+        // Set the alarm to start at 8:30 a.m.
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 30);
+
+        // setRepeating() lets you specify a precise custom interval--in this case,
+        // 20 minutes.
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * 20, alarmIntent);
+
+         */
+
+
+
+
+
+
+
 
 
 

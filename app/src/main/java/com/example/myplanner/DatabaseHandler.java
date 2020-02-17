@@ -151,6 +151,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return res;
     }
 
+    // ------------------------------------------------------------
 
     public Integer deleteFromTable1(String task) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -161,7 +162,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return db.delete(TABLE1, "Tasks = ?", new String[] {task});
     }
 
-    public Integer deleteFromTable2() {
+    public Integer clearTable1() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // The delete method below returns the number of rows affected if a whereClause is passed in.
+        // If no data is deleted, 0 is returned.
+        // The question mark in the whereClause gets replaced by the value(s) passed as the 3rd argument in the delete method.
+        return db.delete(TABLE1, null, null);
+    }
+
+    // ------------------------------------------------------------
+
+    public Integer clearTable2() {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // The delete method below returns the number of rows affected if a whereClause is passed in.
@@ -170,6 +182,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return db.delete(TABLE2, null, null);
     }
 
+    // -------------------------------------------
+
     public Integer deleteFromTable3(String task) {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -177,5 +191,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // If no data is deleted, 0 is returned.
         // The question mark in the whereClause gets replaced by the value(s) passed as the 3rd argument in the delete method.
         return db.delete(TABLE3, "Tasks = ?", new String[] {task});
+    }
+
+    public Integer clearTable3() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // The delete method below returns the number of rows affected if a whereClause is passed in.
+        // If no data is deleted, 0 is returned.
+        // The question mark in the whereClause gets replaced by the value(s) passed as the 3rd argument in the delete method.
+        return db.delete(TABLE3, null, null);
     }
 }

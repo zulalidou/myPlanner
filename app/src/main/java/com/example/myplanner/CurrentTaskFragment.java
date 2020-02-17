@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +26,8 @@ import java.util.ArrayList;
 public class CurrentTaskFragment extends Fragment {
     static ListView currentTasks_ListView;
     static ArrayList<String> currentTasks_Array = new ArrayList<String>();  // Needed to populate the listview
+    static ImageView checkBox;
+
     private FloatingActionButton addTask;
 
     @Nullable
@@ -35,22 +39,33 @@ public class CurrentTaskFragment extends Fragment {
 
 
         retrieveTasksFromDB();
-        Log.d("onCreate_CURRENT", "hello from currentTaskFrag");
 
         currentTasks_ListView = (ListView) myView.findViewById(R.id.currentTasks_LV);
-        ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, currentTasks_Array);
-        currentTasks_ListView.setAdapter(myArrayAdapter);
+        checkBox = (ImageView) myView.findViewById(R.id.checkbox_current_IV);
 
-        currentTasks_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String taskName = parent.getItemAtPosition(position).toString();
 
-                Intent myIntent = new Intent(getActivity(), TaskInfoActivity.class);
-                myIntent.putExtra("myKey", taskName);
-                startActivity(myIntent);
-            }
-        });
+
+        if (currentTasks_Array.size() >= 1) {
+
+            ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, currentTasks_Array);
+            currentTasks_ListView.setAdapter(myArrayAdapter);
+
+            currentTasks_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String taskName = parent.getItemAtPosition(position).toString();
+
+                    Intent myIntent = new Intent(getActivity(), TaskInfoActivity.class);
+                    myIntent.putExtra("myKey", taskName);
+                    startActivity(myIntent);
+                }
+            });
+        }
+
+        else {
+            checkBox.setImageResource(R.drawable.ic_check_box);
+        }
+
 
 
         addTask = (FloatingActionButton) myView.findViewById(R.id.addTasks_FB);

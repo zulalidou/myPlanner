@@ -18,7 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         String task = intent.getStringExtra("task_name");
 
         Intent myIntent = new Intent(context, MainActivity.class);
-        myIntent.putExtra("A task has just expired", task);
+        myIntent.putExtra("A task has just expired", task); // This might actually be unnecessary since I'm already inserting the task in table3
         myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         myIntent.setFlags(Intent.FLAG_ACTIVITY_MULTIPLE_TASK); // Forces 'FLAG_ACTIVITY_NEW_TASK' to start a new task

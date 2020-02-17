@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +86,16 @@ public class TaskInfoActivity extends AppCompatActivity {
         iGROW_db.deleteFromTable1(task);
         ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
         CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
+
+
+
+        // =================================
+
+        if (CurrentTaskFragment.currentTasks_Array.size() == 0) {
+            //CurrentTaskFragment.checkBox = (ImageView) findViewById(R.id.checkbox_IV);
+            CurrentTaskFragment.checkBox.setImageResource(R.drawable.ic_check_box);
+            //Toast.makeText(MainActivity.class, "2nd option", Toast.LENGTH_LONG).show();
+        }
 
 /*
         CurrentTaskFragment.currentTasks_Array.remove(task);

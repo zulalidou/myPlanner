@@ -69,8 +69,8 @@ public class CreateTaskFragment extends Fragment {
         asdf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().popBackStackImmediate();
                 asdf_func();
+                getActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         });
 
@@ -147,9 +147,8 @@ public class CreateTaskFragment extends Fragment {
     }
 
     private void asdf_func() {
-        iGROW_db.deleteFromTable1("c");
-        iGROW_db.deleteFromTable1("boy");
-        iGROW_db.deleteFromTable2();
-        iGROW_db.deleteFromTable3("asdf");
+        iGROW_db.clearTable1();
+        iGROW_db.clearTable2();
+        iGROW_db.clearTable3();
     }
 }

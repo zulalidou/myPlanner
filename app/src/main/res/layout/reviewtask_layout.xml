@@ -21,9 +21,10 @@
 
     <EditText
         android:id="@+id/reviewDialogBox_review"
-        android:hint="Please write a short message on how you think you performed this task"
+        android:hint="Please review your performance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_below="@+id/reviewDialogBox_taskName"/>
 
     <TextView

@@ -24,6 +24,7 @@ public class TaskInfoActivity extends AppCompatActivity {
     //private Toolbar toolbar;
     private TextView taskName;
     private TextView taskDescription;
+    private TextView taskTime;
     private Button deleteTask;
 
     private String task;
@@ -39,20 +40,66 @@ public class TaskInfoActivity extends AppCompatActivity {
 
         taskName = (TextView) findViewById(R.id.taskName_TV_answer);
         taskDescription = (TextView) findViewById(R.id.taskDescription_ET_answer);
-        deleteTask = (Button) findViewById(R.id.deleteTask_BTN);
+        taskTime = (TextView) findViewById(R.id.taskTime_ET_answer);
 
 
-        task = getIntent().getStringExtra("myKey");
-        taskName.setText(task);
+        if (getIntent().getStringExtra("fragmentName") == "currentTasks") {
+            deleteTask = (Button) findViewById(R.id.deleteTask_BTN);
 
-        iGROW_db = new DatabaseHandler(this);
-        res = iGROW_db.getCurrentTask(task);
+            task = getIntent().getStringExtra("myKey");
+            taskName.setText(task);
 
-        res.moveToNext();
-        String description = res.getString(1);
+            iGROW_db = new DatabaseHandler(this);
+            res = iGROW_db.getCurrentTask(task);
+
+            res.moveToNext();
+            String description = res.getString(1);
+            String time = res.getString(3);
+
+
+            taskDescription.setText(description);
+            taskTime.setText(time.substring(6));
 
 
 
+
+            deleteTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteAlarmSet();
+                    finish();
+                }
+            });
+        }
+        else {
+            deleteTask = (Button) findViewById(R.id.deleteTask_BTN);
+            deleteTask.setVisibility(View.GONE);
+
+
+            task = getIntent().getStringExtra("myKey");
+            taskName.setText(task);
+
+            iGROW_db = new DatabaseHandler(this);
+            res = iGROW_db.getExpiredTask(  task);
+
+            res.moveToNext();
+            String description = res.getString(1);
+            String time = res.getString(3);
+
+
+            taskDescription.setText(description);
+            taskTime.setText(time.substring(6));
+        }
+
+
+
+
+
+
+
+
+
+/*
         if (CurrentTaskFragment.currentTasks_Array.contains(task)) {
             taskDescription.setText(description);
         }
@@ -60,14 +107,10 @@ public class TaskInfoActivity extends AppCompatActivity {
             taskDescription.setText(description);
         }
 
+ */
 
-        deleteTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                deleteAlarmSet();
-                finish();
-            }
-        });
+
+
     }
 
     private void deleteAlarmSet() {

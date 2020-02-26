@@ -61,23 +61,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        /*
+
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlarmReceiver.class);
+        Intent intent = new Intent(this, ClearDatabase.class);
         alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
         // Set the alarm to start at 8:30 a.m.
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 8);
-        calendar.set(Calendar.MINUTE, 30);
+        Calendar myCalendar = Calendar.getInstance();
+        myCalendar.setTimeInMillis(System.currentTimeMillis());
+        myCalendar.set(Calendar.HOUR_OF_DAY, 21);
+        myCalendar.set(Calendar.MINUTE, 25);
+        myCalendar.set(Calendar.SECOND, 0);
 
         // setRepeating() lets you specify a precise custom interval--in this case,
         // 20 minutes.
-        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * 20, alarmIntent);
+        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), 1000 * 60 * 2, alarmIntent);
 
-         */
+
 
 
 
@@ -142,6 +142,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_expiredTasks:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ExpiredTaskFragment()).commit();
+                break;
+            case R.id.nav_about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new AboutFragment()).commit();
+                break;
+            case R.id.nav_credits:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new CreditsFragment()).commit();
                 break;
         }
 

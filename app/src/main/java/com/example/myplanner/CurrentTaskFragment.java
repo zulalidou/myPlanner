@@ -56,6 +56,7 @@ public class CurrentTaskFragment extends Fragment {
                     String taskName = parent.getItemAtPosition(position).toString();
 
                     Intent myIntent = new Intent(getActivity(), TaskInfoActivity.class);
+                    myIntent.putExtra("fragmentName", "currentTasks");
                     myIntent.putExtra("myKey", taskName);
                     startActivity(myIntent);
                 }

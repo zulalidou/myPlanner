@@ -14,4 +14,22 @@
             />
     </group>
 
+
+    <item android:title="Resources">
+        <menu>
+            <item android:id="@+id/nav_about"
+                android:checkable="true"
+                android:icon="@drawable/ic_about"
+                android:title="ABOUT"
+                />
+            <item android:id="@+id/nav_credits"
+                android:checkable="true"
+                android:icon="@drawable/ic_credits"
+                android:title="CREDITS"
+                />
+        </menu>
+    </item>
+
+
+
 </menu>

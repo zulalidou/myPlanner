@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@mipmap/ic_launcher_foreground"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="108dp"
+            android:layout_weight="70"
+
+            android:text="Icon made by Freepik from www.flaticon.com"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@mipmap/ic_goal_foreground"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="108dp"
+            android:layout_weight="70"
+
+            android:text="Icon made by Freepik from www.flaticon.com"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:src="@mipmap/ic_instructions_foreground"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="30"
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="108dp"
+            android:layout_weight="70"
+
+            android:text="Icon made by Smashicons from www.flaticon.com"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

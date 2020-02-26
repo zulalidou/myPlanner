@@ -96,16 +96,22 @@ public class ReviewDialog extends AppCompatDialogFragment {
             iGROW_db.deleteFromTable1(task);
             CurrentTaskFragment.currentTasks_Array.remove(task);
 
+
+
             /*
             if (CurrentTaskFragment.currentTasks_ListView != null) {
                 ArrayAdapter<String> myArrayAdapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
                 CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter2);
             }
+
              */
+
 
 
             // Removes the task from "Current_Tasks_Table"
             iGROW_db.deleteFromTable3(task);
+
+
 
             Toast.makeText(getContext(), "Review saved!", Toast.LENGTH_SHORT).show();
 

@@ -71,6 +71,33 @@ public class ExpiredTaskFragment extends Fragment {
             ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, expiredTasks_Array);
             ExpiredTaskFragment.expiredTasks_ListView.setAdapter(myArrayAdapter);
             expiredTasks_ListView.setAdapter(myArrayAdapter);
+
+            /*
+            expiredTasks_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String taskName = parent.getItemAtPosition(position).toString();
+
+                    Intent myIntent = new Intent(getActivity(), TaskInfoActivity.class);
+                    myIntent.putExtra("myKey", taskName);
+                    startActivity(myIntent);
+                }
+            });
+
+             */
+
+            expiredTasks_ListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String taskName = parent.getItemAtPosition(position).toString();
+
+                    Intent myIntent = new Intent(getActivity(), TaskInfoActivity.class);
+                    myIntent.putExtra("fragmentName", "expiredTasks");
+                    myIntent.putExtra("myKey", taskName);
+                    startActivity(myIntent);
+                }
+            });
+
         }
         else {
             checkBox.setImageResource(R.drawable.ic_check_box);

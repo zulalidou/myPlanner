@@ -136,7 +136,7 @@ public class TaskInfoActivity extends AppCompatActivity {
 
         if (CurrentTaskFragment.currentTasks_Array.size() == 0) {
             //CurrentTaskFragment.checkBox = (ImageView) findViewById(R.id.checkbox_IV);
-            CurrentTaskFragment.checkBox.setImageResource(R.drawable.ic_check_box);
+            CurrentTaskFragment.checkBox.setImageResource(R.mipmap.ic_checkmark_foreground);
             //Toast.makeText(MainActivity.class, "2nd option", Toast.LENGTH_LONG).show();
         }
 

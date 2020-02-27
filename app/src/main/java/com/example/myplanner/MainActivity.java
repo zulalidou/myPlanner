@@ -36,12 +36,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView myNavView;
 
     private AlarmManager alarmMgr;
-    private PendingIntent alarmIntent;
+    private PendingIntent myPendingIntent;
+    private Calendar myCalendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setDailyOperation();
 
 
         toolbar = findViewById(R.id.toolbar);
@@ -62,20 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, ClearDatabase.class);
-        alarmIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
 
-        // Set the alarm to start at 8:30 a.m.
-        Calendar myCalendar = Calendar.getInstance();
-        myCalendar.setTimeInMillis(System.currentTimeMillis());
-        myCalendar.set(Calendar.HOUR_OF_DAY, 21);
-        myCalendar.set(Calendar.MINUTE, 25);
-        myCalendar.set(Calendar.SECOND, 0);
 
-        // setRepeating() lets you specify a precise custom interval--in this case,
-        // 20 minutes.
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), 1000 * 60 * 2, alarmIntent);
 
 
 
@@ -121,6 +112,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+    private void setDailyOperation() {
+
+        alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, ClearDatabase.class);
+        myPendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+
+        myCalendar = Calendar.getInstance();
+        myCalendar.setTimeInMillis(System.currentTimeMillis());
+        myCalendar.set(Calendar.HOUR_OF_DAY, 23);
+        myCalendar.set(Calendar.MINUTE, 59);
+        myCalendar.set(Calendar.SECOND, 0);
+
+        // setRepeating() lets you specify a precise custom interval--in this case 2 minutes.
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, myPendingIntent);
+    }
+
 
     private void setToolbarTitle() {
         if (getIntent().getStringExtra("A task has just expired") != null)

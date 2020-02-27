@@ -100,7 +100,7 @@ public class ExpiredTaskFragment extends Fragment {
 
         }
         else {
-            checkBox.setImageResource(R.drawable.ic_check_box);
+            checkBox.setImageResource(R.mipmap.ic_checkmark_foreground);
         }
 
 

@@ -20,6 +20,7 @@
         </activity>
 
         <receiver android:name=".AlarmReceiver"/>
+        <receiver android:name=".ClearDatabase"/>
 
     </application>
 

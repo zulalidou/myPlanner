@@ -51,6 +51,21 @@ public class ReviewDialog extends AppCompatDialogFragment {
 
         final AlertDialog myDialog = myBuilder.create();
         myDialog.show();
+
+        ////////////////////////////////////////////////////////////////////////////
+        DatabaseHandler iGROW_db = new DatabaseHandler(getContext());
+        Cursor res = iGROW_db.getCurrentTask(task);
+
+        res.moveToNext();
+        String description = res.getString(1);
+        int requestCode = res.getInt(2);
+        String time = res.getString(3);
+
+        // Removes the task from "Current_Tasks_Table"
+        iGROW_db.deleteFromTable3(task);
+        ////////////////////////////////////////////////////////////////////////////
+
+
         myDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,8 +111,6 @@ public class ReviewDialog extends AppCompatDialogFragment {
             iGROW_db.deleteFromTable1(task);
             CurrentTaskFragment.currentTasks_Array.remove(task);
 
-
-
             /*
             if (CurrentTaskFragment.currentTasks_ListView != null) {
                 ArrayAdapter<String> myArrayAdapter2 = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
@@ -105,12 +118,6 @@ public class ReviewDialog extends AppCompatDialogFragment {
             }
 
              */
-
-
-
-            // Removes the task from "Current_Tasks_Table"
-            iGROW_db.deleteFromTable3(task);
-
 
 
             Toast.makeText(getContext(), "Review saved!", Toast.LENGTH_SHORT).show();

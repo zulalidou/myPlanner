@@ -51,21 +51,6 @@ public class ReviewDialog extends AppCompatDialogFragment {
 
         final AlertDialog myDialog = myBuilder.create();
         myDialog.show();
-
-        ////////////////////////////////////////////////////////////////////////////
-        DatabaseHandler iGROW_db = new DatabaseHandler(getContext());
-        Cursor res = iGROW_db.getCurrentTask(task);
-
-        res.moveToNext();
-        String description = res.getString(1);
-        int requestCode = res.getInt(2);
-        String time = res.getString(3);
-
-        // Removes the task from "Current_Tasks_Table"
-        iGROW_db.deleteFromTable3(task);
-        ////////////////////////////////////////////////////////////////////////////
-
-
         myDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,7 +78,7 @@ public class ReviewDialog extends AppCompatDialogFragment {
             Toast.makeText(getContext(), "Please review your performance on the task", Toast.LENGTH_SHORT).show();
         else {
             DatabaseHandler iGROW_db = new DatabaseHandler(getContext());
-            Cursor res = iGROW_db.getCurrentTask(task);
+            Cursor res = iGROW_db.getTaskFromTable3(task);
 
             res.moveToNext();
             String description = res.getString(1);
@@ -118,6 +103,14 @@ public class ReviewDialog extends AppCompatDialogFragment {
             }
 
              */
+
+
+
+            // Removes the task from "Current_Tasks_Table"
+            iGROW_db.deleteFromTable3(task);
+
+            ExpiredTaskFragment.tasksAboutToBeReviewed.remove(task);
+
 
 
             Toast.makeText(getContext(), "Review saved!", Toast.LENGTH_SHORT).show();

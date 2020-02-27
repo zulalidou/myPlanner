@@ -16,7 +16,7 @@ public class CreditsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View myView = inflater.inflate(R.layout.fragment_credits, container, false);
 
-        MainActivity.toolbar.setTitle("Credits");
+        MainActivity.toolbar.setTitle("CREDITS");
 
 
         return myView;

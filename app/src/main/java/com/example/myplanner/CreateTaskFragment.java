@@ -41,6 +41,8 @@ public class CreateTaskFragment extends Fragment {
         View myView = inflater.inflate(R.layout.fragment_createtask, container, false);
         iGROW_db = new DatabaseHandler(getContext());
 
+        MainActivity.toolbar.setTitle("Create a task");
+
         taskTextView = (TextView) myView.findViewById(R.id.shortTaskDesc_TV);
         taskEditText = (EditText) myView.findViewById(R.id.shortTaskDesc_ET);
         descriptionTextView = (TextView) myView.findViewById(R.id.longTaskDesc_TV);

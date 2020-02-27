@@ -145,6 +145,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return res;
     }
 
+
+    public Cursor getTaskFromTable3(String task) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from " + TABLE3 + " where " + TABLE2_COL1 + " = '" + task + "'", null);
+        return res;
+    }
+
     public Cursor getItemsFromTable3() {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE3, null);

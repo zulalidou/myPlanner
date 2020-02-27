@@ -34,10 +34,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+
+            <ImageView
+                android:src="@mipmap/ic_to_do_foreground"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
 
             <TextView
                 android:id="@+id/shortTaskDesc_TV"
@@ -46,18 +53,13 @@
                 android:text="Task Name"
                 android:textSize="25dp"
                 android:textAllCaps="false"
-                android:gravity="center"
-                />
+                android:gravity="center" />
 
             <EditText
                 android:id="@+id/shortTaskDesc_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-
-                android:layout_below="@+id/shortTaskDesc_TV"
-                />
-
+                android:gravity="center"/>
 
 
             <TextView
@@ -67,20 +69,13 @@
                 android:text="Task Description"
                 android:textSize="25dp"
                 android:textAllCaps="false"
-                android:gravity="center"
-
-                android:layout_below="@+id/shortTaskDesc_ET"
-                />
+                android:gravity="center"/>
 
             <EditText
                 android:id="@+id/longTaskDesc_ET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-
-                android:layout_below="@id/longTaskDesc_TV"
-                />
-
+                android:gravity="center"/>
 
 
             <TextView
@@ -90,10 +85,7 @@
                 android:text="Time"
                 android:textSize="30dp"
                 android:textAllCaps="false"
-                android:gravity="center"
-
-                android:layout_below="@+id/longTaskDesc_ET"
-                />
+                android:gravity="center"/>
 
             <Button
                 android:id="@+id/setTime_BTN"
@@ -102,10 +94,16 @@
                 android:text="Set time"
                 android:textSize="30dp"
                 android:textAllCaps="false"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"/>
 
-                android:layout_below="@+id/time_TV"
-                />
-
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_dark"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
 
             <Button
@@ -116,10 +114,9 @@
                 android:textSize="30dp"
                 android:textAllCaps="false"
                 android:background="@color/themeColor_2"
-
-                android:layout_below="@+id/setTime_BTN"
-                android:layout_marginTop="100dp"
-                />
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="5dp"/>
 
             <Button
                 android:id="@+id/asdf_BTN"
@@ -129,12 +126,11 @@
                 android:textSize="30dp"
                 android:textAllCaps="false"
                 android:background="@color/themeColor_3"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                android:layout_marginTop="5dp"/>
 
-                android:layout_below="@+id/saveNewTask_BTN"
-                android:layout_marginTop="30dp"
-                />
-
-        </RelativeLayout>
+        </LinearLayout>
 
 
 

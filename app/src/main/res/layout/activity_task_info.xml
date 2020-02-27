@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/themeColor_4"
     tools:context=".TaskInfoActivity">
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/img_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
 
             <TextView
                 android:id="@+id/taskName_TV_header"
@@ -20,17 +31,24 @@
                 android:textSize="25dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="40dp"/>
+                android:gravity="center"/>
 
             <TextView
                 android:id="@+id/taskName_TV_answer"
                 android:text="Hello World"
-                android:textSize="40dp"
+                android:textSize="35dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_below="@+id/taskName_TV_header"/>
+
+            <View
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_dark"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
 
             <TextView
@@ -40,18 +58,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_below="@+id/taskName_TV_answer"
-                android:layout_marginTop="40dp"/>
+                android:layout_below="@+id/taskName_TV_answer"/>
 
             <TextView
                 android:id="@+id/taskDescription_ET_answer"
-                android:textSize="40dp"
+                android:textSize="35dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:gravity="center"
                 android:inputType="textMultiLine"
                 android:layout_below="@+id/taskDescription_TV_header"/>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_dark"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
 
 
             <TextView
@@ -61,13 +86,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:layout_below="@+id/taskDescription_ET_answer"
-                android:layout_marginTop="40dp"/>
+                android:layout_below="@+id/taskDescription_ET_answer"/>
 
             <TextView
                 android:id="@+id/taskTime_ET_answer"
                 android:text="N/A"
-                android:textSize="40dp"
+                android:textSize="35dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -75,21 +99,81 @@
                 android:inputType="textMultiLine"
                 android:layout_below="@+id/taskTime_TV_header"/>
 
+            <View
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_dark"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+
+            <TextView
+                android:id="@+id/taskReview_TV"
+                android:text="Review"
+                android:textSize="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/taskReview_TV_answer"
+                android:textSize="35dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textMultiLine"/>
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_dark"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+
+            <TextView
+                android:id="@+id/taskGrade_TV"
+                android:text="Grade"
+                android:textSize="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/taskGrade_TV_answer"
+                android:textSize="35dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:gravity="center"
+                android:inputType="textMultiLine"/>
+
+            <View
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/background_dark"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+
             <Button
                 android:id="@+id/deleteTask_BTN"
                 android:text="Delete"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_below="@+id/taskTime_ET_answer"
-                android:layout_marginTop="40dp"/>
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"/>
 
-        </RelativeLayout>
+
+
+        </LinearLayout>
 
     </ScrollView>
 
 
-
-
-
-</RelativeLayout>
+</LinearLayout>

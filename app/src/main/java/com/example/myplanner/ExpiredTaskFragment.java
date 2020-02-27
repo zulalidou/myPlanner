@@ -20,11 +20,14 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ExpiredTaskFragment extends Fragment {
     static ListView expiredTasks_ListView;
     static ArrayList<String> expiredTasks_Array = new ArrayList<String>();
     static ImageView checkBox;
+
+    static ArrayList<String> tasksAboutToBeReviewed = new ArrayList<String>();
 
 
     @Nullable
@@ -60,6 +63,17 @@ public class ExpiredTaskFragment extends Fragment {
 
             do {
                 String task = res.getString(0);
+
+                boolean taskFound = false;
+                if (tasksAboutToBeReviewed.contains(task)) {
+                    taskFound = true;
+                    break;
+                }
+
+                if (taskFound)
+                    continue;
+
+                tasksAboutToBeReviewed.add(task);
 
                 ReviewDialog myReviewDialog = new ReviewDialog(task);
                 myReviewDialog.show(getFragmentManager(), "reviewDialog");

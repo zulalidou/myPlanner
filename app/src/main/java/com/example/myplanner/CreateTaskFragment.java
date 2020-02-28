@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +21,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import java.util.Calendar;
 
+/*************************************************************************************************************************
+ The purpose of this fragment class is to create new tasks.
+ ************************************************************************************************************************/
 
 public class CreateTaskFragment extends Fragment {
-    private TextView taskTextView, descriptionTextView, timeTextView;
-    public static EditText taskEditText, descriptionEditText;
-    private Button setTimeBtn, saveNewTaskBtn, asdf, delete;
+    private TextView task_header, description_header, time_header;
+    private EditText task_answer, description_answer;
+
+    private Button setTimeBtn, saveBtn, deleteBtn;
+
     private int requestCode;
 
     private TimePickerDialog myTimePickerDialog;
@@ -43,15 +49,15 @@ public class CreateTaskFragment extends Fragment {
 
         MainActivity.toolbar.setTitle("Create a task");
 
-        taskTextView = (TextView) myView.findViewById(R.id.shortTaskDesc_TV);
-        taskEditText = (EditText) myView.findViewById(R.id.shortTaskDesc_ET);
-        descriptionTextView = (TextView) myView.findViewById(R.id.longTaskDesc_TV);
-        descriptionEditText = (EditText) myView.findViewById(R.id.longTaskDesc_ET);
-        timeTextView = (TextView) myView.findViewById(R.id.time_TV);
-        setTimeBtn = (Button) myView.findViewById(R.id.setTime_BTN);
-        saveNewTaskBtn = (Button) myView.findViewById(R.id.saveNewTask_BTN);
+        task_header = (TextView) myView.findViewById(R.id.task_header);
+        task_answer = (EditText) myView.findViewById(R.id.task_answer);
+        description_header = (TextView) myView.findViewById(R.id.description_header);
+        description_answer = (EditText) myView.findViewById(R.id.description_answer);
+        time_header = (TextView) myView.findViewById(R.id.time_header);
 
-        asdf = (Button) myView.findViewById(R.id.asdf_BTN);
+        setTimeBtn = (Button) myView.findViewById(R.id.setTime_BTN);
+        saveBtn = (Button) myView.findViewById(R.id.save_BTN);
+        deleteBtn = (Button) myView.findViewById(R.id.delete_BTN);
 
 
         setTimeBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,17 +67,17 @@ public class CreateTaskFragment extends Fragment {
             }
         });
 
-        saveNewTaskBtn.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 saveNewTask();
             }
         });
 
-        asdf.setOnClickListener(new View.OnClickListener() {
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                asdf_func();
+                // closes the "createTask" fragment immediately after the user creates the task
                 getActivity().getSupportFragmentManager().popBackStackImmediate();
             }
         });
@@ -79,6 +85,7 @@ public class CreateTaskFragment extends Fragment {
         return myView;
     }
 
+    // This method helps the users set the time they'd like to have accomplished a certain task
     private void setTime() {
         int currentHour = myCalendar.get(Calendar.HOUR_OF_DAY);
         int currentMinute = myCalendar.get(Calendar.MINUTE);
@@ -90,10 +97,10 @@ public class CreateTaskFragment extends Fragment {
                 myCalendar.set(Calendar.MINUTE, minute);
                 myCalendar.set(Calendar.SECOND, 0);
 
-                String timeText = "Time: ";
-                timeText += java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(myCalendar.getTime());
-                timeTextView = (TextView) getActivity().findViewById(R.id.time_TV);
-                timeTextView.setText(timeText);
+                String time = "Time: ";
+                time += java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(myCalendar.getTime());
+                time_header = (TextView) getActivity().findViewById(R.id.time_header);
+                time_header.setText(time);
 
                 setAlarm();
             }
@@ -102,55 +109,56 @@ public class CreateTaskFragment extends Fragment {
         myTimePickerDialog.show();
     }
 
+    // This method sets the alarm for the new task using the time specified by the user
     private void setAlarm() {
         myAlarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
 
         Intent myIntent = new Intent(getActivity(), AlarmReceiver.class);
-        myIntent.putExtra("task_name", taskEditText.getText().toString());
-        //myIntent.putExtra("requestCode", requestCode);
+        myIntent.putExtra("task_name", task_answer.getText().toString());
+        //////
+        //up//
+        //////
 
         requestCode = (int) System.currentTimeMillis();
         myPendingIntent = PendingIntent.getBroadcast(getActivity(), requestCode, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
+    // This method makes sure that all the fields have been filled out before saving the new task
     private void saveNewTask() {
-        if (taskEditText.getText().toString().equals("") || descriptionEditText.getText().toString().equals("")) {
+        if (task_answer.getText().toString().equals("") || description_answer.getText().toString().equals(""))
             Toast.makeText(getContext(), "Please fill in both the \"Task\" and \"Description\" entries", Toast.LENGTH_LONG).show();
-        }
-        else if (myTimePickerDialog == null){
+        else if (myTimePickerDialog == null)
             Toast.makeText(getContext(), "Please select a time", Toast.LENGTH_LONG).show();
-        }
         else {
-            Toast.makeText(getContext(), "New task added", Toast.LENGTH_LONG).show();
-
-            String taskName = taskEditText.getText().toString();
-            String taskDescription = descriptionEditText.getText().toString();
+            String task = task_answer.getText().toString();
+            String description = description_answer.getText().toString();
             int taskRequestCode = requestCode;
-            String taskTime = timeTextView.getText().toString();
+            String time = time_header.getText().toString();
 
-            CurrentTaskFragment.currentTasks_Array.add(taskName);
+            CurrentTaskFragment.currentTasks_Array.add(task);
             ArrayAdapter<String> myArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, CurrentTaskFragment.currentTasks_Array);
             CurrentTaskFragment.currentTasks_ListView.setAdapter(myArrayAdapter);
 
-            boolean dataInserted = iGROW_db.insertIntoTable1(taskName, taskDescription, taskRequestCode, taskTime);
 
-            if (dataInserted)
-                Toast.makeText(getContext(), "YES, data is inserted", Toast.LENGTH_SHORT).show();
+            boolean inserted = iGROW_db.insertIntoTable1(task, description, taskRequestCode, time);
+
+            Log.d("muh_tag", String.valueOf(inserted));
+
+
+            if (inserted)
+                Toast.makeText(getContext(), "INSERTED", Toast.LENGTH_LONG).show();
             else
-                Toast.makeText(getContext(), "NO, data HASN'T been inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "NOT INSERTED", Toast.LENGTH_LONG).show();
 
 
 
+            // closes the "createTask" fragment immediately after the user creates the task
             getActivity().getSupportFragmentManager().popBackStackImmediate();
 
-            if (myAlarmManager != null)
-                myAlarmManager.setExact(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), myPendingIntent); // the alarm gets fired at the time that the calendar was set above
-        }
-    }
 
-    private void asdf_func() {
-        iGROW_db.clearTable1();
-        iGROW_db.clearTable2();
-        iGROW_db.clearTable3();
+            // the alarm gets fired at the time that the calendar was set above
+            if (myAlarmManager != null)
+                myAlarmManager.setExact(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), myPendingIntent);
+        }
     }
 }

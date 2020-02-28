@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -22,7 +24,7 @@
             android:layout_weight="70"
 
             android:text="The goal of the app: To help its users keep track of any tasks they would like to accomplish throughout the day, and have them review their performances after having accomplished their tasks."
-            android:textSize="16dp"
+            android:autoSizeTextType="uniform"
             android:gravity="center"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"/>
@@ -46,7 +48,7 @@
             android:layout_weight="70"
 
             android:text="How it works: You create a task you would like to accomplish within the same day, and set the time you would like to have accomplished it. When that time comes, you'll have to review your performance on how well you accomplished (or didn't accomplish) the goal you set for yourself. Reviewing your performance is necessary in order to help you realize what you did (or didn't do) well, and how to improve yourself on accomplishing future goals."
-            android:textSize="16dp"
+            android:autoSizeTextType="uniform"
             android:gravity="center"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"/>

@@ -28,7 +28,7 @@
             <TextView
                 android:id="@+id/taskName_TV_header"
                 android:text="Name"
-                android:textSize="25dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"/>
@@ -36,7 +36,7 @@
             <TextView
                 android:id="@+id/taskName_TV_answer"
                 android:text="Hello World"
-                android:textSize="35dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -54,7 +54,7 @@
             <TextView
                 android:id="@+id/taskDescription_TV_header"
                 android:text="Description"
-                android:textSize="25dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -62,7 +62,7 @@
 
             <TextView
                 android:id="@+id/taskDescription_ET_answer"
-                android:textSize="35dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -82,7 +82,7 @@
             <TextView
                 android:id="@+id/taskTime_TV_header"
                 android:text="Time"
-                android:textSize="25dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -91,7 +91,7 @@
             <TextView
                 android:id="@+id/taskTime_ET_answer"
                 android:text="N/A"
-                android:textSize="35dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -111,14 +111,14 @@
             <TextView
                 android:id="@+id/taskReview_TV"
                 android:text="Review"
-                android:textSize="25dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"/>
 
             <TextView
                 android:id="@+id/taskReview_TV_answer"
-                android:textSize="35dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -137,14 +137,14 @@
             <TextView
                 android:id="@+id/taskGrade_TV"
                 android:text="Grade"
-                android:textSize="25dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"/>
 
             <TextView
                 android:id="@+id/taskGrade_TV_answer"
-                android:textSize="35dp"
+                android:autoSizeTextType="uniform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"

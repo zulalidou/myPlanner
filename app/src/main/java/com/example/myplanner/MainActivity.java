@@ -4,34 +4,27 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Calendar;
 
+/****************************************************************************************************************************
+ This is the main class of the app, and is the first activity that gets executed when the app gets launched.
+ ***************************************************************************************************************************/
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    static Toolbar toolbar;
+    public static Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView myNavView;
 
@@ -44,8 +37,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setDailyOperation();
 
+        /******************** SETUP ********************/
 
         toolbar = findViewById(R.id.toolbar);
         setToolbarTitle();
@@ -57,26 +50,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-
         // To listen to click events on our navigation view, we need a reference to it.. hence, the variable below
         myNavView = findViewById(R.id.nav_view);
         myNavView.setNavigationItemSelectedListener(this);
 
+        /******************** SETUP ********************/
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        setDailyOperation();
 
 
         // Rotating the device causes the app to destroy the current activity & recreate it. If the users were in another
@@ -85,8 +66,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // -- savedInstanceState is null if the activity is started for the first time, or we leave the current activity
         //    through the back button, and get back to it. Rotating the device will cause "savedInstanceState to not be null
         if (savedInstanceState == null) {
-            DatabaseHandler iGROW_db = new DatabaseHandler(getBaseContext());
-            Cursor res = iGROW_db.getItemsFromTable3();
+            DatabaseHandler myPlanner_DB = new DatabaseHandler(getBaseContext());
+            Cursor res = myPlanner_DB.getItemsFromTable3();
 
             // -----------------------------------------------------------------------------------------------------------------------------------------------------
             // 1st case: When a task expires, it gets placed in the ReviewDialog table. When the users head to the "expiredTaskFragment", but fail to review their
@@ -95,13 +76,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // -----------------------------------------------------------------------------------------------------------------------------------------------------
             // 2nd case: When the users click the notification for a task that just expired (and there is currently no task history of the app on the users' phones)
             // -----------------------------------------------------------------------------------------------------------------------------------------------------
-            if (res.getCount() >= 1 || getIntent().getStringExtra("A task has just expired") != null) {
+            if (res.getCount() >= 1) {
                 myNavView.setCheckedItem(R.id.nav_expiredTasks);
 
                 // The code below displays the "ExpiredTasks" fragment
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ExpiredTaskFragment()).commit();
             }
-
 
             // When there aren't any task that have expired (or HAVE expired but have also been reviewed)
             else {
@@ -113,12 +93,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void setDailyOperation() {
 
+    // This method sets the toolbar based on whether or not a task has expired
+    private void setToolbarTitle() {
+        DatabaseHandler myPlanner_DB = new DatabaseHandler(getBaseContext());
+        Cursor res = myPlanner_DB.getItemsFromTable3();
+
+        if (res.getCount() >= 1)
+            toolbar.setTitle("Expired tasks");
+        else
+            toolbar.setTitle("Current tasks");
+    }
+
+    // This method sets up an alarm to clear the database every day at 11:59:59pm
+    private void setDailyOperation() {
         alarmMgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, ClearDatabase.class);
         myPendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
 
         myCalendar = Calendar.getInstance();
         myCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -126,16 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         myCalendar.set(Calendar.MINUTE, 59);
         myCalendar.set(Calendar.SECOND, 0);
 
-        // setRepeating() lets you specify a precise custom interval--in this case 2 minutes.
         alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, myCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, myPendingIntent);
-    }
-
-
-    private void setToolbarTitle() {
-        if (getIntent().getStringExtra("A task has just expired") != null)
-            toolbar.setTitle("Expired tasks");
-        else
-            toolbar.setTitle("Current tasks");
     }
 
 
@@ -178,7 +160,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onNewIntent(intent);
         setIntent(intent); // replaces the old intent with the new intent created by clicking the notification
 
-        if (getIntent().getStringExtra("A task has just expired") != null) {
+        DatabaseHandler myPlanner_DB = new DatabaseHandler(getBaseContext());
+        Cursor res = myPlanner_DB.getItemsFromTable3();
+
+
+        if (res.getCount() > 0) {
             myNavView.setCheckedItem(R.id.nav_expiredTasks);
 
             // The code below displays the "ExpiredTasks" fragment
